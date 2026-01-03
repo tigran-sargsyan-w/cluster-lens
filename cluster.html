@@ -1,41 +1,284 @@
 <!doctype html>
-<html>
-  <head><meta charset="utf-8"><title>Cluster 42</title></head>
-  <body>
-    <h1>Cluster 42</h1>
-    <pre id="out">Loading...</pre>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cluster 42</title>
+  <style>
+    :root{
+      --bg:#0b0f17; --card:#121a26; --muted:#9aa4b2; --text:#e7edf5;
+      --line:#243044; --good:#2ecc71; --bad:#ff5c5c; --warn:#f5c542;
+      --chip:#1b2637;
+    }
+    body{ margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial; background:var(--bg); color:var(--text); }
+    .wrap{ max-width:980px; margin:0 auto; padding:22px; }
+    .topbar{ display:flex; gap:12px; align-items:center; justify-content:space-between; margin-bottom:16px; }
+    .title{ font-size:18px; color:var(--muted); }
+    .btn{
+      background:transparent; border:1px solid var(--line); color:var(--text);
+      padding:10px 12px; border-radius:12px; cursor:pointer;
+    }
+    .btn:hover{ border-color:#3a4b6b; }
+    .grid{ display:grid; gap:14px; grid-template-columns: 1.2fr 0.8fr; }
+    @media (max-width: 860px){ .grid{ grid-template-columns: 1fr; } }
 
-    <script>
-      const WORKER = "https://cluster-42.tigran-sargsyan-w.workers.dev";
+    .card{
+      background:var(--card); border:1px solid var(--line);
+      border-radius:16px; padding:16px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.25);
+    }
+    .profile{ display:flex; gap:14px; align-items:center; }
+    .avatar{ width:72px; height:72px; border-radius:16px; object-fit:cover; border:1px solid var(--line); background:#0f1520; }
+    .name{ font-size:20px; font-weight:650; }
+    .sub{ color:var(--muted); margin-top:2px; }
+    .row{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+    .chip{
+      display:inline-flex; gap:8px; align-items:center;
+      background:var(--chip); border:1px solid var(--line);
+      padding:8px 10px; border-radius:999px; color:var(--text);
+      font-size:13px;
+    }
+    .dot{ width:8px; height:8px; border-radius:99px; background:var(--muted); }
+    .dot.good{ background:var(--good); }
+    .dot.bad{ background:var(--bad); }
+    .dot.warn{ background:var(--warn); }
 
-      async function main() {
-        const url = new URL(location.href);
-        const session = url.searchParams.get("session") || localStorage.getItem("session");
+    details{ border:1px solid var(--line); border-radius:14px; overflow:hidden; background:rgba(0,0,0,.08); }
+    summary{
+      cursor:pointer; list-style:none; padding:12px 14px; user-select:none;
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    summary::-webkit-details-marker{ display:none; }
+    .details-body{ padding:12px 14px; border-top:1px solid var(--line); color:var(--text); }
+    .kvs{ display:grid; grid-template-columns: 170px 1fr; gap:8px 12px; }
+    .k{ color:var(--muted); }
+    .list{ margin:0; padding:0; list-style:none; display:grid; gap:10px; }
+    .item{
+      border:1px solid var(--line); border-radius:14px; padding:12px;
+      display:flex; justify-content:space-between; gap:12px; align-items:flex-start;
+      background:rgba(255,255,255,.02);
+    }
+    .item-title{ font-weight:600; }
+    .item-sub{ color:var(--muted); font-size:13px; margin-top:4px; }
+    .pill{
+      font-size:12px; padding:6px 10px; border-radius:999px;
+      border:1px solid var(--line); background:rgba(0,0,0,.18); color:var(--text);
+      white-space:nowrap;
+    }
+    .muted{ color:var(--muted); }
+    .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }
+    .error{ color: var(--bad); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="title">ClusterLens (POC)</div>
+      <div style="display:flex; gap:10px;">
+        <button class="btn" id="btn-login">Login</button>
+        <button class="btn" id="btn-logout">Logout</button>
+      </div>
+    </div>
 
-        if (!session) {
-          document.getElementById("out").textContent =
-            "No session. Open login.html and login first.";
-          return;
-        }
+    <div id="root" class="card">
+      Загрузка...
+    </div>
+  </div>
 
-        // Store and remove session from URL
-        localStorage.setItem("session", session);
-        url.searchParams.delete("session");
-        history.replaceState({}, "", url.toString());
+  <script>
+    const WORKER = "https://cluster-42.tigran-sargsyan-w.workers.dev";
 
-        const res = await fetch(`${WORKER}/session?session=${encodeURIComponent(session)}`);
-        if (!res.ok) {
-          localStorage.removeItem("session");
-          document.getElementById("out").textContent =
-            "Session is invalid. Open login.html and login again.";
-          return;
-        }
+    document.getElementById("btn-login").onclick = () => {
+      location.href = `${WORKER}/login`;
+    };
 
-        const data = await res.json();
-        document.getElementById("out").textContent = JSON.stringify(data, null, 2);
+    document.getElementById("btn-logout").onclick = () => {
+      localStorage.removeItem("session");
+      location.href = "login.html";
+    };
+
+    function el(tag, attrs={}, ...children){
+      const node = document.createElement(tag);
+      for (const [k,v] of Object.entries(attrs)){
+        if (k === "class") node.className = v;
+        else if (k === "html") node.innerHTML = v;
+        else if (k.startsWith("on") && typeof v === "function") node.addEventListener(k.slice(2), v);
+        else node.setAttribute(k, v);
+      }
+      for (const ch of children){
+        if (ch == null) continue;
+        node.appendChild(typeof ch === "string" ? document.createTextNode(ch) : ch);
+      }
+      return node;
+    }
+
+    function fmtDate(iso){
+      if (!iso) return "—";
+      const d = new Date(iso);
+      if (isNaN(d)) return iso;
+      return d.toLocaleString("ru-RU", { year:"numeric", month:"short", day:"2-digit" });
+    }
+
+    function pickMainCursus(me){
+      // main = slug "42cursus" обычно cursus_id=21, но лучше по slug
+      const cu = me?.cursus_users || [];
+      const main = cu.find(x => x?.cursus?.slug === "42cursus") || cu.find(x => x?.cursus_id === 21) || null;
+      return main;
+    }
+
+    function primaryCampusName(me){
+      const primary = (me?.campus_users || []).find(x => x?.is_primary);
+      const campusId = primary?.campus_id;
+      const campus = (me?.campus || []).find(c => c?.id === campusId) || (me?.campus || [])[0];
+      return campus?.name || "—";
+    }
+
+    function statusDot(ok){ return el("span", { class:`dot ${ok ? "good" : "bad"}` }); }
+
+    function render(me){
+      const main = pickMainCursus(me);
+      const campus = primaryCampusName(me);
+
+      const avatar = me?.image?.versions?.medium || me?.image?.link || "";
+      const isActive = !!me["active?"];
+      const isAlumni = !!me["alumni?"];
+      const kind = me?.kind || "—";
+
+      const header = el("div", { class:"profile" },
+        el("img", { class:"avatar", src: avatar, alt:"avatar", referrerpolicy:"no-referrer" }),
+        el("div", {},
+          el("div", { class:"name" }, me?.displayname || `${me?.first_name ?? ""} ${me?.last_name ?? ""}`),
+          el("div", { class:"sub mono" }, `@${me?.login || "—"}`),
+          el("div", { class:"row" },
+            el("span", { class:"chip" }, statusDot(isActive), `active: ${isActive ? "yes" : "no"}`),
+            el("span", { class:"chip" }, el("span", { class:"dot warn" }), `kind: ${kind}`),
+            el("span", { class:"chip" }, statusDot(!isAlumni), `alumni: ${isAlumni ? "yes" : "no"}`),
+            el("span", { class:"chip" }, el("span", { class:"dot" }), `campus: ${campus}`),
+          )
+        )
+      );
+
+      const quick = el("div", { class:"row" },
+        el("span", { class:"chip" }, `pool: ${me?.pool_month ?? "—"} ${me?.pool_year ?? "—"}`),
+        el("span", { class:"chip" }, `wallet: ${me?.wallet ?? "—"}`),
+        el("span", { class:"chip" }, `correction pts: ${me?.correction_point ?? "—"}`),
+      );
+
+      const cursusDetails = el("details", { open: true },
+        el("summary", {}, el("span", {}, "🎓 42cursus"), el("span", { class:"muted" }, main ? `${main.grade ?? "—"} • lvl ${main.level ?? "—"}` : "—")),
+        el("div", { class:"details-body" },
+          el("div", { class:"kvs" },
+            el("div", { class:"k" }, "Grade"), el("div", {}, main?.grade ?? "—"),
+            el("div", { class:"k" }, "Level"), el("div", {}, String(main?.level ?? "—")),
+            el("div", { class:"k" }, "Begin"), el("div", {}, fmtDate(main?.begin_at)),
+            el("div", { class:"k" }, "Blackhole"), el("div", {}, fmtDate(main?.blackholed_at)),
+          )
+        )
+      );
+
+      const projects = (me?.projects_users || []).slice();
+
+      const inProgress = projects
+        .filter(p => p?.status === "in_progress")
+        .sort((a,b) => (b?.created_at || "").localeCompare(a?.created_at || ""));
+
+      const finished = projects
+        .filter(p => p?.status === "finished")
+        .sort((a,b) => (b?.marked_at || b?.updated_at || "").localeCompare(a?.marked_at || a?.updated_at || ""))
+        .slice(0, 8);
+
+      const projCard = el("details", { open: true },
+        el("summary", {}, el("span", {}, "📦 Projects"), el("span", { class:"muted" }, `${inProgress.length} in progress • ${finished.length} recent finished`)),
+        el("div", { class:"details-body" },
+          el("div", { class:"muted", style:"margin-bottom:10px;" }, "In progress"),
+          inProgress.length ? el("ul", { class:"list" },
+            ...inProgress.map(p => el("li", { class:"item" },
+              el("div", {},
+                el("div", { class:"item-title" }, p?.project?.name || p?.project?.slug || "—"),
+                el("div", { class:"item-sub" }, `started: ${fmtDate(p?.created_at)}`)
+              ),
+              el("span", { class:"pill" }, "in_progress")
+            ))
+          ) : el("div", { class:"muted" }, "—"),
+
+          el("div", { class:"muted", style:"margin:14px 0 10px;" }, "Recent finished"),
+          finished.length ? el("ul", { class:"list" },
+            ...finished.map(p => el("li", { class:"item" },
+              el("div", {},
+                el("div", { class:"item-title" }, p?.project?.name || p?.project?.slug || "—"),
+                el("div", { class:"item-sub" },
+                  `mark: ${p?.final_mark ?? "—"} • validated: ${p["validated?"] ? "yes" : "no"} • ${fmtDate(p?.marked_at)}`
+                )
+              ),
+              el("span", { class:"pill" }, `${p?.final_mark ?? "—"}`)
+            ))
+          ) : el("div", { class:"muted" }, "—"),
+        )
+      );
+
+      const rawDetails = el("details", {},
+        el("summary", {}, el("span", {}, "🧾 Raw JSON (debug)"), el("span", { class:"muted" }, "свернуть/развернуть")),
+        el("div", { class:"details-body" },
+          el("pre", { class:"mono", style:"white-space:pre-wrap; overflow:auto; max-height:320px; margin:0;" },
+            JSON.stringify({ ok:true, me }, null, 2)
+          )
+        )
+      );
+
+      return el("div", {},
+        header,
+        quick,
+        el("div", { class:"grid", style:"margin-top:14px;" },
+          el("div", { class:"card" }, cursusDetails, el("div", { style:"height:12px;" }), projCard),
+          el("div", { class:"card" }, rawDetails)
+        )
+      );
+    }
+
+    async function main(){
+      const root = document.getElementById("root");
+
+      // взять session из URL или localStorage
+      const u = new URL(location.href);
+      const sessionFromUrl = u.searchParams.get("session");
+      const session = sessionFromUrl || localStorage.getItem("session");
+
+      if (!session){
+        root.innerHTML = "";
+        root.appendChild(el("div", { class:"error" }, "Нет session. Открой login.html и залогинься."));
+        return;
       }
 
-      main();
-    </script>
-  </body>
+      // сохранить session и убрать из URL
+      localStorage.setItem("session", session);
+      if (sessionFromUrl){
+        u.searchParams.delete("session");
+        history.replaceState({}, "", u.toString());
+      }
+
+      root.textContent = "Загрузка профиля…";
+
+      const res = await fetch(`${WORKER}/session?session=${encodeURIComponent(session)}`);
+      if (!res.ok){
+        localStorage.removeItem("session");
+        root.innerHTML = "";
+        root.appendChild(el("div", { class:"error" }, "Сессия истекла/недействительна. Нажми Login."));
+        return;
+      }
+
+      const data = await res.json();
+      const me = data?.me;
+      if (!data?.ok || !me){
+        root.innerHTML = "";
+        root.appendChild(el("div", { class:"error" }, "Неожиданный ответ сервера."));
+        return;
+      }
+
+      root.innerHTML = "";
+      root.appendChild(render(me));
+    }
+
+    main();
+  </script>
+</body>
 </html>
