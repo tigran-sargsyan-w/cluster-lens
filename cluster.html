@@ -320,7 +320,6 @@
     async function openUserModal(user){
     if (!user) return;
 
-    console.log("openUserModal", user);
     document.getElementById("userModalName").textContent = user.displayname || user.login || "—";
     document.getElementById("userModalLogin").textContent = user.login ? `@${user.login}` : "—";
     document.getElementById("userModalLevel").textContent = (user.level != null) ? String(user.level) : "—";
@@ -348,6 +347,7 @@
         } catch {}
     }
 
+    console.log("openUserModal", user);
     modalOverlay.classList.add("show");
     modalOverlay.setAttribute("aria-hidden", "false");
     }
