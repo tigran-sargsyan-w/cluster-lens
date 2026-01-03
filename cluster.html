@@ -317,7 +317,7 @@
     const modalOverlay = document.getElementById("userModalOverlay");
     const modalCloseBtn = document.getElementById("userModalClose");
 
-    function openUserModal(user){
+    async function openUserModal(user){
     if (!user) return;
 
     console.log("openUserModal", user);
@@ -330,6 +330,23 @@
     const img = document.getElementById("userModalAvatar");
     img.src = user.avatar_large || user.avatar || "";
     img.alt = user.displayname || user.login || "";
+
+    // если level нет — догружаем из Worker по клику
+    if (user?.id && (user.level == null)) {
+        try {
+            const session = new URLSearchParams(location.search).get("session");
+            const r = await fetch(`${API_BASE}/user?session=${encodeURIComponent(session)}&id=${encodeURIComponent(user.id)}`);
+            const j = await r.json();
+            if (j?.ok && j?.user) {
+            // обновляем модалку “на лету”
+            document.getElementById("userModalLevel").textContent =
+                (j.user.level != null) ? String(j.user.level) : "—";
+
+            const img = document.getElementById("userModalAvatar");
+            img.src = j.user.avatar_large || j.user.avatar || img.src;
+            }
+        } catch {}
+    }
 
     modalOverlay.classList.add("show");
     modalOverlay.setAttribute("aria-hidden", "false");
