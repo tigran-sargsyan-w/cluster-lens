@@ -370,6 +370,7 @@
             const session = new URLSearchParams(location.search).get("session");
             const r = await fetch(`${API_BASE}/user?session=${encodeURIComponent(session)}&id=${encodeURIComponent(user.id)}`);
             const j = await r.json();
+            console.log("j-response", j);
             if (!j?.ok) return;
 
             const full = j.user;
