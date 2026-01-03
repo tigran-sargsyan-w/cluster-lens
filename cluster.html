@@ -315,6 +315,7 @@
         return;
     }
       const data = await res.json();
+      console.log("cluster data", data);
       if (!data?.ok){
         document.getElementById("updated").textContent = "Bad response";
         return;
