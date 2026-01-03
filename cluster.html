@@ -113,6 +113,12 @@
       font-size:13px;
       line-height:1.5;
     }
+
+    .mapCardScroll{
+      max-height: calc(100vh - 160px);
+      overflow: auto;
+      padding-right: 6px;
+    }
   </style>
 </head>
 <body>
@@ -168,7 +174,7 @@
       </div>
 
       <!-- RIGHT: map -->
-      <div class="card">
+      <div class="card mapCardScroll">
         <div class="tabs">
           <button class="tab active" id="tab-io">Io</button>
           <button class="tab" id="tab-disc">Discovery</button>
