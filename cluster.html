@@ -320,6 +320,7 @@
     function openUserModal(user){
     if (!user) return;
 
+    console.log("openUserModal", user);
     document.getElementById("userModalName").textContent = user.displayname || user.login || "—";
     document.getElementById("userModalLogin").textContent = user.login ? `@${user.login}` : "—";
     document.getElementById("userModalLevel").textContent = (user.level != null) ? String(user.level) : "—";
