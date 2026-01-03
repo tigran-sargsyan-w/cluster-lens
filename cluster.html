@@ -367,19 +367,17 @@
         modalOverlay.classList.add("show");
 
         // 2) догружаем полный профиль
-        const session = new URLSearchParams(location.search).get("session");
-        console.log("session from URL =", session);
+        const session = getSessionFromStorageOrUrl();
+        console.log("session from storage/url =", session);
 
-        // если сессии нет — сразу покажем понятный лог
         if (!session) {
-            console.warn("No session in URL. /user call skipped.");
+            console.warn("No session found. /user call skipped.");
             document.getElementById("userModalLevel").textContent = "—";
             return;
         }
 
         try {
-            console.log("API_BASE =", API_BASE);
-            const url = `${API_BASE}/user?session=${encodeURIComponent(session)}&id=${encodeURIComponent(user.id)}`;
+            const url = `${WORKER}/user?session=${encodeURIComponent(session)}&id=${encodeURIComponent(user.id)}`;
             console.log("fetch full user:", url);
 
             const r = await fetch(url);
@@ -592,6 +590,12 @@
     }
 
     // === Session + Campus ===
+    function getSessionFromStorageOrUrl(){
+      const url = new URL(location.href);
+      return url.searchParams.get("session") || localStorage.getItem("session");
+    }
+
+
     async function getSessionIdFromUrlOrStorage(){
       const url = new URL(location.href);
       const sessionFromUrl = url.searchParams.get("session");
