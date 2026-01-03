@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+  <head><meta charset="utf-8"><title>Cluster 42</title></head>
+  <body>
+    <h1>Cluster 42</h1>
+    <pre id="out">Loading...</pre>
+
+    <script>
+      const WORKER = "https://cluster-42.tigran-sargsyan-w.workers.dev";
+
+      async function main() {
+        const url = new URL(location.href);
+        const session = url.searchParams.get("session") || localStorage.getItem("session");
+
+        if (!session) {
+          document.getElementById("out").textContent =
+            "No session. Open login.html and login first.";
+          return;
+        }
+
+        // Store and remove session from URL
+        localStorage.setItem("session", session);
+        url.searchParams.delete("session");
+        history.replaceState({}, "", url.toString());
+
+        const res = await fetch(`${WORKER}/session?session=${encodeURIComponent(session)}`);
+        if (!res.ok) {
+          localStorage.removeItem("session");
+          document.getElementById("out").textContent =
+            "Session is invalid. Open login.html and login again.";
+          return;
+        }
+
+        const data = await res.json();
+        document.getElementById("out").textContent = JSON.stringify(data, null, 2);
+      }
+
+      main();
+    </script>
+  </body>
+</html>
