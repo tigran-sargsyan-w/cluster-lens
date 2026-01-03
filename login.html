@@ -1,10 +1,131 @@
 <!doctype html>
-<html>
-  <head><meta charset="utf-8"><title>Cluster 42 — Login</title></head>
-  <body>
-    <h1>Cluster 42</h1>
-    <a href="https://cluster-42.tigran-sargsyan-w.workers.dev/login">
-      Login with 42
-    </a>
-  </body>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ClusterLens — Login</title>
+  <style>
+    :root{
+      --bg:#0b0f17; --card:#121a26; --muted:#9aa4b2; --text:#e7edf5;
+      --line:#243044; --good:#2ecc71; --bad:#ff5c5c; --warn:#f5c542;
+      --chip:#1b2637;
+    }
+    body{ margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial; background:var(--bg); color:var(--text); }
+    .wrap{ max-width:980px; margin:0 auto; padding:22px; }
+    .topbar{ display:flex; gap:12px; align-items:center; justify-content:space-between; margin-bottom:16px; }
+    .title{ font-size:18px; color:var(--muted); }
+    .btn{
+      background:transparent; border:1px solid var(--line); color:var(--text);
+      padding:10px 12px; border-radius:12px; cursor:pointer;
+    }
+    .btn:hover{ border-color:#3a4b6b; }
+    .btn.primary{
+      background:rgba(255,255,255,.06);
+      border-color:#3a4b6b;
+    }
+    .card{
+      background:var(--card); border:1px solid var(--line);
+      border-radius:16px; padding:18px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.25);
+    }
+    .grid{ display:grid; gap:14px; grid-template-columns: 1.1fr .9fr; }
+    @media (max-width: 860px){ .grid{ grid-template-columns:1fr; } }
+    .h1{ font-size:26px; font-weight:750; margin:0; }
+    .p{ color:var(--muted); margin:8px 0 0; line-height:1.55; }
+    .row{ display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
+    .chip{
+      display:inline-flex; gap:8px; align-items:center;
+      background:var(--chip); border:1px solid var(--line);
+      padding:8px 10px; border-radius:999px; color:var(--text);
+      font-size:13px;
+    }
+    .dot{ width:8px; height:8px; border-radius:99px; background:var(--muted); }
+    .dot.good{ background:var(--good); }
+    .dot.warn{ background:var(--warn); }
+    .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }
+    .kvs{ display:grid; grid-template-columns: 140px 1fr; gap:8px 12px; margin-top:8px; }
+    .k{ color:var(--muted); }
+    .note{ color:var(--muted); font-size:13px; margin-top:12px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="title">ClusterLens (POC)</div>
+      <div style="display:flex; gap:10px;">
+        <button class="btn" id="btn-home">Home</button>
+        <button class="btn" id="btn-dashboard">Dashboard</button>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h1 class="h1">Login with 42</h1>
+        <p class="p">
+          Нажми кнопку ниже — тебя перебросит на intra.42.fr.
+          Пароль вводится только на стороне 42.
+        </p>
+
+        <div class="row">
+          <span class="chip"><span class="dot good"></span> Secure OAuth</span>
+          <span class="chip"><span class="dot warn"></span> No passwords stored</span>
+        </div>
+
+        <div class="row">
+          <button class="btn primary" id="btn-login42">Continue to 42</button>
+          <button class="btn" id="btn-clear">Clear session</button>
+        </div>
+
+        <div class="note">
+          Если ты уже логинился ранее на этом устройстве, можно просто открыть Dashboard.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="chip"><span class="dot"></span> Debug</div>
+        <div class="kvs">
+          <div class="k">Worker</div>
+          <div class="mono" id="worker-url">—</div>
+
+          <div class="k">Session</div>
+          <div class="mono" id="session-state">—</div>
+
+          <div class="k">Callback</div>
+          <div class="mono">/callback</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const WORKER = "https://cluster-42.tigran-sargsyan-w.workers.dev";
+    const HOME_PAGE = "index.html";
+    const CLUSTER_PAGE = "cluster.html";
+
+    document.getElementById("worker-url").textContent = WORKER;
+
+    function hasSession(){
+      return !!localStorage.getItem("session");
+    }
+
+    function refresh(){
+      document.getElementById("session-state").textContent = hasSession() ? "present" : "none";
+      document.getElementById("btn-dashboard").disabled = !hasSession();
+    }
+
+    document.getElementById("btn-home").onclick = () => location.href = HOME_PAGE;
+    document.getElementById("btn-dashboard").onclick = () => location.href = CLUSTER_PAGE;
+
+    document.getElementById("btn-login42").onclick = () => {
+      location.href = `${WORKER}/login`;
+    };
+
+    document.getElementById("btn-clear").onclick = () => {
+      localStorage.removeItem("session");
+      refresh();
+    };
+
+    refresh();
+  </script>
+</body>
 </html>
