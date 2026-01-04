@@ -50,16 +50,146 @@
 
     /* Map */
     .mapWrap{ display:grid; grid-template-columns: 1fr 1fr; gap:18px; }
-    /* @media (max-width: 980px){ .mapWrap{ grid-template-columns: 1fr; } } */
-    /* @media (max-width: 980px){
-      .grid > .card:last-child{
+
+    /* Mobile responsive styles */
+    @media (max-width: 768px){
+      .wrap{ padding:12px; }
+      
+      .grid{ 
+        grid-template-columns: 1fr; 
+        gap:12px;
+      }
+      
+      /* Stats card - full width */
+      .card{
+        width: 100%;
+        box-sizing: border-box;
+        padding: 14px;
+        border-radius: 14px;
+      }
+      
+      /* Map wrapper - single column, full width */
+      .mapWrap{
+        grid-template-columns: 1fr;
+        gap: 14px;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
       }
-      .mapWrap{
-        min-width: 720px;
+      
+      /* Zone styling for mobile */
+      .zone{
+        padding: 8px;
+        min-width: fit-content;
       }
-    } */ 
+      
+      .zoneTitle{
+        font-size: 28px;
+        margin: 8px 0 10px;
+      }
+      
+      .zoneRow{
+        gap: 10px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        overflow-x: auto;
+      }
+      
+      .rowLabel{
+        font-size: 20px;
+      }
+      
+      /* Smaller seats on mobile */
+      .seat{
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+      }
+      
+      .seats{
+        gap: 6px;
+      }
+      
+      .seatNum{
+        font-size: 12px;
+      }
+      
+      /* Stats adjustments */
+      .statValue{
+        font-size: 36px;
+      }
+      
+      .statBig{
+        flex-direction: row;
+        justify-content: space-between;
+      }
+      
+      .chip{
+        font-size: 12px;
+        padding: 6px 8px;
+      }
+      
+      .barRow{
+        grid-template-columns: 50px 1fr auto;
+        font-size: 13px;
+      }
+      
+      /* Tabs */
+      .tabs{
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      
+      .tab{
+        padding: 8px 10px;
+        font-size: 14px;
+      }
+      
+      /* Top bar */
+      .topbar{
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      
+      .title{
+        font-size: 16px;
+      }
+      
+      .btn{
+        padding: 8px 10px;
+        font-size: 14px;
+      }
+    }
+    
+    /* Extra small screens */
+    @media (max-width: 480px){
+      .wrap{ padding: 8px; }
+      
+      .seat{
+        width: 30px;
+        height: 30px;
+        border-radius: 6px;
+      }
+      
+      .seats{
+        gap: 4px;
+      }
+      
+      .zoneTitle{
+        font-size: 24px;
+      }
+      
+      .rowLabel{
+        font-size: 16px;
+      }
+      
+      .statValue{
+        font-size: 28px;
+      }
+      
+      .seatCol.up{ transform: translateY(-10px); }
+      .seatCol.down{ transform: translateY(8px); }
+    }
+    
     @media (max-width: 980px){
       .mapWrap{
         transform-origin: top center;
@@ -262,6 +392,80 @@
   border: 1px solid var(--line);
   font-size: 13px;
   color: var(--text);
+}
+
+/* Mobile modal styles */
+@media (max-width: 768px){
+  .modalOverlay{
+    padding: 12px;
+  }
+  
+  .modal{
+    width: 100%;
+    max-width: 100%;
+    aspect-ratio: auto;
+    max-height: 90vh;
+    margin-top: 0;
+    border-radius: 14px;
+  }
+  
+  .modalHeader{
+    padding: 12px 14px;
+  }
+  
+  .modalBody{
+    padding: 14px;
+    gap: 12px;
+    overflow-y: auto;
+  }
+  
+  .modalAvatar{
+    width: 140px;
+    height: 140px;
+    border-radius: 14px;
+  }
+  
+  .modalInfo h2{
+    font-size: 18px;
+  }
+  
+  .modalInfo .sub{
+    font-size: 12px;
+  }
+  
+  .modalActions{
+    flex-wrap: wrap;
+  }
+  
+  .modalLink{
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+  
+  .pill{
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+  
+  .modalInfo > div:last-child{
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px){
+  .modalAvatar{
+    width: 110px;
+    height: 110px;
+  }
+  
+  .modalInfo h2{
+    font-size: 16px;
+  }
+  
+  .pill{
+    font-size: 11px;
+    padding: 5px 7px;
+  }
 }
 
 
