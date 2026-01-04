@@ -71,46 +71,47 @@
       /* Map wrapper - keep two columns but smaller */
       .mapWrap{
         grid-template-columns: 1fr 1fr;
-        gap: 10px;
+        gap: 6px;
       }
       
       /* Zone styling for mobile - smaller */
       .zone{
-        padding: 4px;
+        padding: 2px;
       }
       
       .zoneTitle{
-        font-size: 18px;
-        margin: 4px 0 6px;
+        font-size: 12px;
+        margin: 2px 0 4px;
       }
       
       .zoneRow{
-        gap: 6px;
-        padding-top: 6px;
-        padding-bottom: 6px;
+        gap: 4px;
+        padding-top: 3px;
+        padding-bottom: 3px;
       }
       
       .rowLabel{
-        font-size: 12px;
+        font-size: 9px;
       }
       
       /* Much smaller seats on mobile */
       .seat{
-        width: 22px;
-        height: 22px;
-        border-radius: 4px;
+        width: 14px;
+        height: 14px;
+        border-radius: 2px;
       }
       
       .seats{
-        gap: 3px;
+        gap: 2px;
       }
       
       .seatNum{
-        font-size: 8px;
+        font-size: 6px;
+        display: none;
       }
       
-      .seatCol.up{ transform: translateY(-6px); }
-      .seatCol.down{ transform: translateY(5px); }
+      .seatCol.up{ transform: translateY(-3px); }
+      .seatCol.down{ transform: translateY(3px); }
       
       /* Stats adjustments */
       .statValue{
@@ -158,56 +159,57 @@
         font-size: 14px;
       }
       
-      /* Tooltip smaller */
+      /* Tooltip hidden on mobile */
       .tooltip{
-        padding: 4px 6px;
-        font-size: 9px;
-        bottom: 26px;
-        border-radius: 6px;
+        display: none;
       }
     }
     
     /* Extra small screens */
     @media (max-width: 480px){
-      .wrap{ padding: 8px; }
+      .wrap{ padding: 6px; }
+      
+      .mapWrap{
+        gap: 4px;
+      }
       
       .seat{
-        width: 16px;
-        height: 16px;
-        border-radius: 3px;
+        width: 10px;
+        height: 10px;
+        border-radius: 2px;
       }
       
       .seats{
-        gap: 2px;
+        gap: 1px;
       }
       
       .zoneTitle{
-        font-size: 14px;
+        font-size: 10px;
       }
       
       .rowLabel{
-        font-size: 10px;
+        font-size: 7px;
       }
       
       .statValue{
         font-size: 28px;
       }
       
-      .seatCol.up{ transform: translateY(-4px); }
-      .seatCol.down{ transform: translateY(4px); }
+      .seatCol.up{ transform: translateY(-2px); }
+      .seatCol.down{ transform: translateY(2px); }
       
       .seatNum{
-        font-size: 6px;
+        display: none;
       }
       
       .zoneRow{
-        gap: 4px;
-        padding-top: 4px;
-        padding-bottom: 4px;
+        gap: 2px;
+        padding-top: 2px;
+        padding-bottom: 2px;
       }
       
-      .tooltip{
-        display: none;
+      .zone{
+        padding: 1px;
       }
     }
     
