@@ -49,9 +49,15 @@
     .tab.active{ color:var(--text); border-color:#3a4b6b; background:rgba(255,255,255,.04); }
 
     /* Map */
-    /* .mapWrap{ display:grid; grid-template-columns: 1fr 1fr; gap:18px; }
-    @media (max-width: 980px){ .mapWrap{ grid-template-columns: 1fr; } } */
-    .mapWrap{ display:grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap:18px; }
+    .mapWrap{ display:grid; grid-template-columns: 1fr 1fr; gap:18px; }
+    @media (max-width: 980px){
+      .mapWrap{
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        transform: scale(0.82);
+        transform-origin: top left;
+        width: calc(100% / 0.82);
+      }
+    }
 
     .zoneTitle{ font-size:42px; font-weight:750; text-align:center; opacity:.92; margin:10px 0 12px; }
     .zone{ padding:10px; }
