@@ -464,7 +464,7 @@
         <div class="barList" id="promoBars"></div>
 
         <div style="height:14px;"></div>
-        <div class="chip">👤 Kind</div>
+        <div class="chip">🎖️ Grade</div>
         <div class="barList" id="kindBars"></div>
 
         <div class="row" style="margin-top:14px;">
@@ -1020,7 +1020,7 @@
       // document.getElementById("seatmapSource").textContent = data.seatmap_source || "—";
 
       renderBars(document.getElementById("promoBars"), data.stats?.promo);
-      renderBars(document.getElementById("kindBars"), data.stats?.kind);
+      renderBars(document.getElementById("kindBars"), data.stats?.grade || data.stats?.kind);
 
     //   const zones = Array.isArray(data.zones) ? data.zones : [];
       const map = document.getElementById("mapZones");
