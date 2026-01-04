@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -958,7 +958,7 @@
       const session = await getSessionIdFromUrlOrStorage();
       if (!session){
         document.getElementById("updated").textContent = "No session";
-        setStatusMsg("Нет session. Открой login.html и залогинься.");
+        setStatusMsg("No session found. Please open login.html and sign in.");
         return;
       }
 
@@ -968,13 +968,13 @@
       } catch (e) {
         document.getElementById("updated").textContent = "Session expired";
         localStorage.removeItem("session");
-        setStatusMsg("Сессия истекла/недействительна. Нажми Login.");
+        setStatusMsg("Session expired or invalid. Click Login.");
         return;
       }
 
       if (!campus?.id){
         document.getElementById("updated").textContent = "No campus_id";
-        setStatusMsg("Не удалось определить campus_id из профиля (/v2/me).");
+        setStatusMsg("Failed to determine campus_id from profile (/v2/me).");
         return;
       }
 
@@ -1009,7 +1009,7 @@
 
       if (!data?.ok){
         document.getElementById("updated").textContent = "Bad response";
-        setStatusMsg("Неожиданный ответ от /cluster.");
+        setStatusMsg("Unexpected response from /cluster.");
         return;
       }
 
@@ -1028,8 +1028,8 @@
 
       if (!zones.length){
         setStatusMsg(
-          `Seatmap пустой (seatmap_source=${data.seatmap_source || "—"}).
-Скорее всего Worker ещё не обновлён на host-парсинг или в ответе нет host-координат.`
+          `Seatmap is empty (seatmap_source=${data.seatmap_source || "—"}).
+Most likely the Worker hasn't been updated to host-parsing or there are no host-coordinates in the response.`
         );
         return;
       }

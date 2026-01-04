@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -81,7 +81,7 @@
     </div>
 
     <div id="root" class="card">
-      Загрузка...
+      Loading...
     </div>
   </div>
 
@@ -217,7 +217,7 @@
       );
 
       const rawDetails = el("details", {},
-        el("summary", {}, el("span", {}, "🧾 Raw JSON (debug)"), el("span", { class:"muted" }, "свернуть/развернуть")),
+        el("summary", {}, el("span", {}, "🧾 Raw JSON (debug)"), el("span", { class:"muted" }, "expand/collapse")),
         el("div", { class:"details-body" },
           el("pre", { class:"mono", style:"white-space:pre-wrap; overflow:auto; max-height:320px; margin:0;" },
             JSON.stringify({ ok:true, me }, null, 2)
@@ -245,7 +245,7 @@
 
       if (!session){
         root.innerHTML = "";
-        root.appendChild(el("div", { class:"error" }, "Нет session. Открой login.html и залогинься."));
+        root.appendChild(el("div", { class:"error" }, "No session found. Please open login.html and sign in."));
         return;
       }
 
@@ -256,13 +256,13 @@
         history.replaceState({}, "", u.toString());
       }
 
-      root.textContent = "Загрузка профиля…";
+      root.textContent = "Loading profile…";
 
       const res = await fetch(`${WORKER}/session?session=${encodeURIComponent(session)}`);
       if (!res.ok){
         localStorage.removeItem("session");
         root.innerHTML = "";
-        root.appendChild(el("div", { class:"error" }, "Сессия истекла/недействительна. Нажми Login."));
+        root.appendChild(el("div", { class:"error" }, "Session expired or invalid. Click Login."));
         return;
       }
 
@@ -270,7 +270,7 @@
       const me = data?.me;
       if (!data?.ok || !me){
         root.innerHTML = "";
-        root.appendChild(el("div", { class:"error" }, "Неожиданный ответ сервера."));
+        root.appendChild(el("div", { class:"error" }, "Unexpected server response."));
         return;
       }
 
