@@ -364,6 +364,8 @@
         document.getElementById("userModalName").textContent = user.displayname || user.login || "—";
         document.getElementById("userModalLogin").textContent = user.login ? `@${user.login}` : "—";
         document.getElementById("userModalLevel").textContent = (user.level != null) ? String(user.level) : "—";
+        document.getElementById("userModalPromo").textContent = user.pool_year || "—";
+        document.getElementById("userModalKind").textContent = user.kind || "—";
 
         const img = document.getElementById("userModalAvatar");
         img.src = user.avatar_large || user.avatar || "";
