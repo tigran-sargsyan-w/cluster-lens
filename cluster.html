@@ -55,7 +55,19 @@
     .zoneTitle{ font-size:42px; font-weight:750; text-align:center; opacity:.92; margin:10px 0 12px; }
     .zone{ padding:10px; }
     .zoneInner{ display:grid; gap:12px; }
-    .zoneRow{ display:grid; grid-template-columns: 1fr auto; align-items:center; gap:14px; }
+    /* .zoneRow{ display:grid; grid-template-columns: 1fr auto; align-items:center; gap:14px; } */
+    .zoneRow{
+      display:grid;
+      grid-template-columns: 1fr auto;
+      align-items:center;
+      gap:14px;
+      padding-bottom:12px;
+      border-bottom:1px solid var(--line);
+    }
+    .zoneRow:last-child{
+      padding-bottom:0;
+      border-bottom:none;
+    }
     .rowLabel{ font-size:28px; font-weight:700; opacity:.92; }
 
     .seats{ display:flex; gap:8px; align-items:flex-end; }
