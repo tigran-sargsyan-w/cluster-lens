@@ -60,6 +60,8 @@
 
     .seats{ display:flex; gap:8px; align-items:flex-end; }
     .seatCol{ display:flex; flex-direction:column; align-items:center; gap:6px; }
+    .seatCol.up{ transform: translateY(-14px); }
+    .seatCol.down{ transform: translateY(10px); }
 
     .seat{
       width:44px; height:44px; border-radius:10px;
@@ -477,6 +479,17 @@
     const LOGIN_PAGE = "login.html";
     const CLUSTER_PAGE = "cluster.html";
 
+    const ROW_FIRST_POSITION = {
+      // примеры:
+      // "Z1:R1": "top",
+      // "Z1:R2": "bottom",
+      // "R3": "top",
+      "Z1:R1": "bottom",
+      "Z2:R1": "top",
+      "Z3:R1": "bottom",
+      "Z4:R1": "bottom",
+    };
+
     // Io: Z1,Z2 | Discovery: Z3,Z4
     let activeTab = "io";
 
@@ -579,12 +592,30 @@
       return zones;
     }
 
+    function resolveRowStartPosition(zoneName, row){
+      const explicit =
+        row?.first_position ||
+        row?.firstPosition ||
+        row?.start_position ||
+        row?.startPosition;
+      if (explicit === "top" || explicit === "bottom") return explicit;
+
+      const key = `${zoneName}:${row.name}`;
+      return ROW_FIRST_POSITION[key] || ROW_FIRST_POSITION[row.name] || "top";
+    }
+
     function renderZoneInto(container, zone){
       const inner = el("div", { class:"zoneInner" });
 
       for (const r of zone.rows) {
+        const startPosition = resolveRowStartPosition(zone.name, r);
         const seats = el("div", { class:"seats" },
-          ...r.seats.map(s => {
+          // ...r.seats.map(s => {
+          ...r.seats.map((s, idx) => {
+            const isUp = (startPosition === "bottom")
+              ? idx % 2 === 1
+              : idx % 2 === 0;
+
             const seat = el("div", { class:`seat ${s.status}` });
 
             if (s.status === "occupied" && s.user?.avatar) {
@@ -601,7 +632,8 @@
             seat.addEventListener("click", () => openUserModal(s.user));
             }
 
-            return el("div", { class:"seatCol" },
+            // return el("div", { class:"seatCol" },
+            return el("div", { class:`seatCol ${isUp ? "up" : "down"}` },
               seat,
               el("div", { class:"seatNum mono" }, String(s.post))
             );
