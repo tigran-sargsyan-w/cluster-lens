@@ -71,47 +71,53 @@
       /* Map wrapper - keep two columns but smaller */
       .mapWrap{
         grid-template-columns: 1fr 1fr;
-        gap: 6px;
+        gap: 4px;
       }
       
-      /* Zone styling for mobile - smaller */
+      /* Zone styling for mobile - tiny */
       .zone{
-        padding: 2px;
+        padding: 1px;
       }
       
       .zoneTitle{
-        font-size: 12px;
-        margin: 2px 0 4px;
+        font-size: 9px;
+        margin: 1px 0 2px;
       }
       
       .zoneRow{
-        gap: 4px;
-        padding-top: 3px;
-        padding-bottom: 3px;
+        gap: 2px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        border-bottom-width: 0;
       }
       
       .rowLabel{
-        font-size: 9px;
+        font-size: 6px;
+        min-width: 12px;
       }
       
-      /* Much smaller seats on mobile */
+      /* Tiny seats on mobile */
       .seat{
-        width: 14px;
-        height: 14px;
-        border-radius: 2px;
+        width: 8px;
+        height: 8px;
+        border-radius: 1px;
+        border-width: 0;
       }
       
       .seats{
-        gap: 2px;
+        gap: 1px;
       }
       
       .seatNum{
-        font-size: 6px;
         display: none;
       }
       
-      .seatCol.up{ transform: translateY(-3px); }
-      .seatCol.down{ transform: translateY(3px); }
+      .seatCol{
+        gap: 1px;
+      }
+      
+      .seatCol.up{ transform: translateY(-2px); }
+      .seatCol.down{ transform: translateY(2px); }
       
       /* Stats adjustments */
       .statValue{
@@ -167,16 +173,16 @@
     
     /* Extra small screens */
     @media (max-width: 480px){
-      .wrap{ padding: 6px; }
+      .wrap{ padding: 4px; }
       
       .mapWrap{
-        gap: 4px;
+        gap: 2px;
       }
       
       .seat{
-        width: 10px;
-        height: 10px;
-        border-radius: 2px;
+        width: 6px;
+        height: 6px;
+        border-radius: 1px;
       }
       
       .seats{
@@ -184,32 +190,38 @@
       }
       
       .zoneTitle{
-        font-size: 10px;
+        font-size: 7px;
       }
       
       .rowLabel{
-        font-size: 7px;
+        font-size: 5px;
+        min-width: 8px;
       }
       
       .statValue{
         font-size: 28px;
       }
       
-      .seatCol.up{ transform: translateY(-2px); }
-      .seatCol.down{ transform: translateY(2px); }
+      .seatCol.up{ transform: translateY(-1px); }
+      .seatCol.down{ transform: translateY(1px); }
       
       .seatNum{
         display: none;
       }
       
       .zoneRow{
-        gap: 2px;
-        padding-top: 2px;
-        padding-bottom: 2px;
+        gap: 1px;
+        padding-top: 1px;
+        padding-bottom: 1px;
       }
       
       .zone{
-        padding: 1px;
+        padding: 0;
+      }
+      
+      .card{
+        padding: 8px;
+        border-radius: 10px;
       }
     }
     
