@@ -601,7 +601,10 @@
       if (explicit === "top" || explicit === "bottom") return explicit;
 
       const key = `${zoneName}:${row.name}`;
-      return ROW_FIRST_POSITION[key] || ROW_FIRST_POSITION[row.name] || "top";
+      return ROW_FIRST_POSITION[key]
+        || ROW_FIRST_POSITION[zoneName]
+        || ROW_FIRST_POSITION[row.name]
+        || "top";
     }
 
     function renderZoneInto(container, zone){
