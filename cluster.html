@@ -248,7 +248,7 @@
 
         <div class="row">
           <span class="chip">🏫 campus_id: <span class="mono" id="campusId">—</span></span>
-          <span class="chip">🧩 seatmap: <span class="mono" id="seatmapSource">—</span></span>
+          <span class="chip">🏫 campus: <span class="mono" id="campusName">—</span></span>
         </div>
 
         <div class="row">
@@ -614,14 +614,18 @@
       return session;
     }
 
-    async function getPrimaryCampusId(session){
+    async function getPrimaryCampus(session){
       const res = await fetch(`${WORKER}/session?session=${encodeURIComponent(session)}`);
       if (!res.ok) throw new Error("Session invalid/expired");
 
       const data = await res.json();
       const cu = data?.me?.campus_users || [];
-      const primary = cu.find(x => x?.is_primary);
-      return primary?.campus_id || cu[0]?.campus_id || null;
+      // const primary = cu.find(x => x?.is_primary);
+      // return primary?.campus_id || cu[0]?.campus_id || null;
+      const primary = cu.find(x => x?.is_primary) || cu[0] || null;
+      const campusId = primary?.campus_id || null;
+      const campus = (data?.me?.campus || []).find(c => c?.id === campusId) || (data?.me?.campus || [])[0];
+      return { id: campusId, name: campus?.name || "—" };
     }
 
     // === Main load ===
@@ -635,9 +639,9 @@
         return;
       }
 
-      let campusId;
+      let campus;
       try {
-        campusId = await getPrimaryCampusId(session);
+        campus = await getPrimaryCampus(session);
       } catch (e) {
         document.getElementById("updated").textContent = "Session expired";
         localStorage.removeItem("session");
@@ -645,15 +649,17 @@
         return;
       }
 
-      if (!campusId){
+      if (!campus?.id){
         document.getElementById("updated").textContent = "No campus_id";
         setStatusMsg("Не удалось определить campus_id из профиля (/v2/me).");
         return;
       }
 
-      document.getElementById("campusId").textContent = String(campusId);
+      // document.getElementById("campusId").textContent = String(campusId);
+      document.getElementById("campusId").textContent = String(campus.id);
+      document.getElementById("campusName").textContent = campus.name || "—";
 
-      const api = `${WORKER}/cluster?session=${encodeURIComponent(session)}&campus_id=${encodeURIComponent(campusId)}`;
+      const api = `${WORKER}/cluster?session=${encodeURIComponent(session)}&campus_id=${encodeURIComponent(campus.id)}`;
 
       const res = await fetch(api);
       if (!res.ok){
@@ -664,7 +670,8 @@
       }
 
       const data = await res.json();
-    //   console.log("cluster data", data);
+      // console.log("cluster data", data);
+      console.log("campus", campus);
 
       // сохранить последние данные для отладки
         window.__lastCluster = data;
@@ -687,7 +694,7 @@
       document.getElementById("free").textContent = data.stats?.free ?? "—";
       document.getElementById("blocked").textContent = data.stats?.blocked ?? "—";
       document.getElementById("updated").textContent = fmtTime(data.updated_at);
-      document.getElementById("seatmapSource").textContent = data.seatmap_source || "—";
+      // document.getElementById("seatmapSource").textContent = data.seatmap_source || "—";
 
       renderBars(document.getElementById("promoBars"), data.stats?.promo);
       renderBars(document.getElementById("kindBars"), data.stats?.kind);
