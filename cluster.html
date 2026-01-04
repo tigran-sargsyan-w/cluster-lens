@@ -199,6 +199,31 @@
   margin-bottom: 10px;
 }
 
+.modalActions{
+  display:flex;
+  gap:10px;
+  justify-content:center;
+  margin-bottom: 12px;
+}
+
+.modalLink{
+  text-decoration: none;
+  font-size: 13px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: var(--chip);
+  border: 1px solid var(--line);
+  color: var(--text);
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+}
+.modalLink:hover{ border-color:#3a4b6b; }
+.modalLink[aria-disabled="true"]{
+  opacity:.5;
+  pointer-events:none;
+}
+
 .pill{
   display:inline-flex;
   gap:8px;
@@ -299,6 +324,11 @@
       <div class="modalInfo">
         <h2 id="userModalName">—</h2>
         <div class="sub" id="userModalLogin">—</div>
+        <div class="modalActions">
+          <a class="modalLink" id="userModalProfileLink" href="#" target="_blank" rel="noreferrer noopener" aria-disabled="true">
+            🔗 Open Intra profile
+          </a>
+        </div>
 
         <div style="display:flex; gap:10px; flex-wrap:wrap;">
           <span class="pill">⭐ level: <span class="mono" id="userModalLevel">—</span></span>
@@ -371,6 +401,15 @@
         img.src = user.avatar_large || user.avatar || "";
         img.alt = user.displayname || user.login || "";
 
+        const profileLink = document.getElementById("userModalProfileLink");
+        if (user.login) {
+            profileLink.href = `https://profile.intra.42.fr/users/${encodeURIComponent(user.login)}`;
+            profileLink.setAttribute("aria-disabled", "false");
+        } else {
+            profileLink.href = "#";
+            profileLink.setAttribute("aria-disabled", "true");
+        }
+        
         modalOverlay.classList.add("show");
 
         // 2) догружаем полный профиль
