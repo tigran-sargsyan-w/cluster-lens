@@ -74,9 +74,16 @@
         <div class="row">
           <span class="chip"><span class="dot good"></span> OAuth via 42</span>
           <span class="chip"><span class="dot warn"></span> Backend: Cloudflare Workers</span>
-          <span class="chip"><span class="dot warn"></span> Frontend: GitHub Pages</span>
+          <span class="chip"><span class="dot warn"></span> Frontend: Vercel</span>
         </div>
 
+        <div class="row">
+          <div class="k">Session</div>
+          <div class="mono" id="session-state">—</div>
+          <button class="btn" id="btn-clear">Clear session</button>
+        </div>
+
+        
         <div class="row">
           <button class="btn primary" id="btn-cta">Login with 42</button>
           <button class="btn" id="btn-cta-dashboard">Open Map</button>
@@ -86,24 +93,6 @@
           No passwords stored: login happens on 42's side. We only receive a token via OAuth.
         </div>
       </div>
-
-      <div class="card">
-        <div class="chip"><span class="dot"></span> Status</div>
-        <div class="kvs">
-          <div class="k">Worker</div>
-          <div class="mono" id="worker-url">—</div>
-
-          <div class="k">Session</div>
-          <div class="mono" id="session-state">—</div>
-
-          <div class="k">Next</div>
-          <div class="mono">/login → /callback → dashboard</div>
-        </div>
-
-        <div class="row">
-          <button class="btn" id="btn-clear">Clear session</button>
-        </div>
-      </div>
     </div>
   </div>
 
@@ -111,8 +100,6 @@
     const WORKER = "https://cluster-42.tigran-sargsyan-w.workers.dev";
     const LOGIN_PAGE = "login.html";
     const CLUSTER_PAGE = "cluster.html";
-
-    document.getElementById("worker-url").textContent = WORKER;
 
     function hasSession(){
       return !!localStorage.getItem("session");
