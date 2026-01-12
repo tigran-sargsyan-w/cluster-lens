@@ -60,7 +60,7 @@
       <div style="display:flex; gap:10px;">
         <button class="btn" id="btn-login-primary">Login</button>
         <button class="btn" id="btn-profile">Profile</button>
-        <button class="btn" id="btn-dashboard">Cluster Map</button>
+        <button class="btn" id="btn-dashboard-primary">Cluster Map</button>
       </div>
     </div>
 
@@ -87,6 +87,7 @@
         
         <div class="row">
           <button class="btn primary" id="btn-login-secondary">Login with 42</button>
+          <button class="btn primary" id="btn-dashboard-secondary">Go to Cluster Map</button>
         </div>
 
         <div class="footer">
@@ -113,13 +114,15 @@
       document.getElementById("btn-login-primary").style.display = logged ? "none" : "inline-block";
       document.getElementById("btn-login-secondary").style.display = logged ? "none" : "inline-block";
       document.getElementById("btn-profile").style.display = logged ? "inline-block" : "none";
-      document.getElementById("btn-dashboard").style.display = logged ? "inline-block" : "none";
+      document.getElementById("btn-dashboard-primary").style.display = logged ? "inline-block" : "none";
+      document.getElementById("btn-dashboard-secondary").style.display = logged ? "inline-block" : "none";
     }
 
     document.getElementById("btn-login-primary").onclick = () => location.href = `${WORKER}/login`;
     document.getElementById("btn-login-secondary").onclick = () => location.href = `${WORKER}/login`;
     document.getElementById("btn-profile").onclick = () => location.href = PROFILE_PAGE;
-    document.getElementById("btn-dashboard").onclick = () => location.href = CLUSTER_PAGE;
+    document.getElementById("btn-dashboard-primary").onclick = () => location.href = CLUSTER_PAGE;
+    document.getElementById("btn-dashboard-secondary").onclick = () => location.href = CLUSTER_PAGE;
 
     document.getElementById("btn-clear").onclick = () => {
       localStorage.removeItem("session");
