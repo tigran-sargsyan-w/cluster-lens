@@ -106,8 +106,14 @@
     }
 
     function refreshStatus(){
-      document.getElementById("session-state").textContent = hasSession() ? "present" : "none";
-      document.getElementById("btn-dashboard").disabled = !hasSession();
+      const logged = hasSession();
+      document.getElementById("session-state").textContent = logged ? "present" : "none";
+
+      // Show login buttons when not logged in; show profile/dashboard when logged in
+      document.getElementById("btn-login-primary").style.display = logged ? "none" : "inline-block";
+      document.getElementById("btn-login-secondary").style.display = logged ? "none" : "inline-block";
+      document.getElementById("btn-profile").style.display = logged ? "inline-block" : "none";
+      document.getElementById("btn-dashboard").style.display = logged ? "inline-block" : "none";
     }
 
     document.getElementById("btn-login-primary").onclick = () => location.href = `${WORKER}/login`;
