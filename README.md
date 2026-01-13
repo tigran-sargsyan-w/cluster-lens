@@ -19,6 +19,7 @@ Welcome to **42 Cluster Lens** — an alternative interactive cluster map for 42
 The project was created to solve everyday student pain points:
 - “Where are free seats right now?”
 - “Why is the official map not loading?”
+- “Why is the official map not zooming?”
 - “How can I instantly see the cluster load?”
 - “Who can check me, and who might need my check?”
 
@@ -87,22 +88,10 @@ Just fork the project, make your changes, and open a PR — **every contribution
 
 ---
 
-## 📌 Getting started
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/<your-username>/cluster-lens.git
-   ```
-2. Open `index.html` in your browser.
-
----
-
 ## 🌟 Future ideas
 
-- mini-map with quick floor overview;
 - highlighting “almost free” clusters;
 - saved favorite seats;
-- multi-campus support.
 
 If you like the idea — a star ⭐ and participation help the project grow.
 
