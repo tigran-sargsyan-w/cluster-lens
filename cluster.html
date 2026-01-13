@@ -613,40 +613,6 @@
     if (sessionModalOverlay) sessionModalOverlay.addEventListener("click", (e) => { if (e.target === sessionModalOverlay) closeSessionModal(); });
     if (sessionModalLogin) sessionModalLogin.onclick = () => { location.href = `${WORKER}/login`; };
 
-    // async function openUserModal(user){
-    // if (!user) return;
-
-    // document.getElementById("userModalName").textContent = user.displayname || user.login || "—";
-    // document.getElementById("userModalLogin").textContent = user.login ? `@${user.login}` : "—";
-    // document.getElementById("userModalLevel").textContent = (user.level != null) ? String(user.level) : "—";
-    // document.getElementById("userModalPromo").textContent = user.pool_year || "—";
-    // document.getElementById("userModalKind").textContent = user.kind || "—";
-
-    // const img = document.getElementById("userModalAvatar");
-    // img.src = user.avatar_large || user.avatar || "";
-    // img.alt = user.displayname || user.login || "";
-
-    // // если level нет — догружаем из Worker по клику
-    // if (user?.id && (user.level == null)) {
-    //     try {
-    //         const session = new URLSearchParams(location.search).get("session");
-    //         const r = await fetch(`${API_BASE}/user?session=${encodeURIComponent(session)}&id=${encodeURIComponent(user.id)}`);
-    //         const j = await r.json();
-    //         if (j?.ok && j?.user) {
-    //         // обновляем модалку “на лету”
-    //         document.getElementById("userModalLevel").textContent =
-    //             (j.user.level != null) ? String(j.user.level) : "—";
-
-    //         const img = document.getElementById("userModalAvatar");
-    //         img.src = j.user.avatar_large || j.user.avatar || img.src;
-    //         }
-    //     } catch {}
-    // }
-
-    // console.log("openUserModal", user);
-    // modalOverlay.classList.add("show");
-    // modalOverlay.setAttribute("aria-hidden", "false");
-    // }
     function trunc2(v){
         const n = Number(v);
         if (!Number.isFinite(n)) return "—";
@@ -842,27 +808,6 @@
       }
     }
 
-    // function filterZonesByTab(zones){
-    //   const hasZ1 = zones.some(z => z.name === "Z1");
-    //   const hasZ2 = zones.some(z => z.name === "Z2");
-    //   const hasZ3 = zones.some(z => z.name === "Z3");
-    //   const hasZ4 = zones.some(z => z.name === "Z4");
-
-    //   // если это действительно схема Z1..Z4 — фильтруем красиво
-    //   if (hasZ1 || hasZ2 || hasZ3 || hasZ4) {
-    //     if (activeTab === "io") {
-    //       const z = zones.filter(x => x.name === "Z1" || x.name === "Z2");
-    //       return z.length ? z : zones;
-    //     } else {
-    //       const z = zones.filter(x => x.name === "Z3" || x.name === "Z4");
-    //       return z.length ? z : zones;
-    //     }
-    //   }
-
-    //   // иначе (неожиданные имена зон) — показываем всё
-    //   return zones;
-    // }
-
     function filterZonesByTab(zones){
       const hasZ1 = zones.some(z => z.name === "Z1");
       const hasZ2 = zones.some(z => z.name === "Z2");
@@ -1001,8 +946,6 @@
 
       const data = await res.json();
       const cu = data?.me?.campus_users || [];
-      // const primary = cu.find(x => x?.is_primary);
-      // return primary?.campus_id || cu[0]?.campus_id || null;
       const primary = cu.find(x => x?.is_primary) || cu[0] || null;
       const campusId = primary?.campus_id || null;
       const campus = (data?.me?.campus || []).find(c => c?.id === campusId) || (data?.me?.campus || [])[0];
@@ -1081,7 +1024,7 @@
       renderBars(document.getElementById("promoBars"), data.stats?.promo);
       renderBars(document.getElementById("kindBars"), data.stats?.kind);
 
-    //   const zones = Array.isArray(data.zones) ? data.zones : [];
+      // const zones = Array.isArray(data.zones) ? data.zones : [];
       const map = document.getElementById("mapZones");
       map.innerHTML = "";
 
