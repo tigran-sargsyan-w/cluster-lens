@@ -87,6 +87,7 @@
 
   <script>
     const WORKER = "https://cluster-42.tigran-sargsyan-w.workers.dev";
+    const HOME_PAGE = "/";
 
     document.getElementById("btn-login").onclick = () => {
       location.href = `${WORKER}/login`;
@@ -94,7 +95,7 @@
 
     document.getElementById("btn-logout").onclick = () => {
       localStorage.removeItem("session");
-      location.href = "login.html";
+      location.href = HOME_PAGE;
     };
 
     function el(tag, attrs={}, ...children){
@@ -245,7 +246,7 @@
 
       if (!session){
         root.innerHTML = "";
-        root.appendChild(el("div", { class:"error" }, "No session found. Please open login.html and sign in."));
+        root.appendChild(el("div", { class:"error" }, `No session found. Please Login.`));
         return;
       }
 
