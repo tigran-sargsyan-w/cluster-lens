@@ -732,7 +732,7 @@
     // === UI wiring ===
     document.getElementById("btn-home").onclick = () => location.href = HOME_PAGE;
     document.getElementById("btn-login").onclick = () => location.href = `${WORKER}/login`;
-    document.getElementById("btn-logout").onclick = () => { localStorage.removeItem("session"); /* location.href = HOME_PAGE; */ };
+    document.getElementById("btn-logout").onclick = () => { localStorage.removeItem("session"); location.href = CLUSTER_PAGE; };
     document.getElementById("btn-refresh").onclick = () => load();
 
     document.getElementById("tab-io").onclick = () => { activeTab = "io"; setTab(true); load(); };
