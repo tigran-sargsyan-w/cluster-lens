@@ -1,0 +1,22 @@
+{
+      // 🔸 Имя воркера (должно совпадать с тем, что ты видишь в Cloudflare Dashboard)
+  "name": "cluster-42",
+    // 🔸 Точка входа
+  "main": "src/index.js",
+    // 🔸 Дата совместимости (ставь текущую/сегодняшнюю)
+  "compatibility_date": "2026-01-14",
+
+    // 🔸 Публичные переменные (не секреты!)
+  "vars": {
+    "FRONTEND_ORIGIN": "https://cluster-lens.vercel.app",
+    "FRONTEND_URL": "https://cluster-lens.vercel.app"
+  },
+
+  "kv_namespaces": [
+    {
+      "binding": "OAUTH",
+      "id": "a3b888d8eb3a45bfbf2f5d8ed9468453",
+      "preview_id": "a3b888d8eb3a45bfbf2f5d8ed9468453"
+    }
+  ]
+}
