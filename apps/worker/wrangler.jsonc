@@ -9,7 +9,7 @@
     // 🔸 Публичные переменные (не секреты!)
   "vars": {
     "FRONTEND_ORIGIN": "https://cluster-lens.vercel.app/",
-    "FRONTEND_URL": "https://cluster-lens.vercel.app/"
+    "FRONTEND_URL": "https://cluster-lens.vercel.app/cluster.html"
   },
 
   "kv_namespaces": [
