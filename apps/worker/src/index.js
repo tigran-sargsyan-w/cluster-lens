@@ -27,7 +27,6 @@ export default {
         }
 
         if (url.pathname === "/") {
-            console.log("env.Secret", env.FT_CLIENT_ID);
             return new Response("cluster-42 worker is alive", {
                 headers: { "content-type": "text/plain; charset=utf-8" }
             });
