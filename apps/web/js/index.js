@@ -2,11 +2,11 @@ const WORKER = "https://cluster-42.tigran-sargsyan-w.workers.dev";
 const PROFILE_PAGE = "profile.html";
 const CLUSTER_PAGE = "cluster.html";
 
-function hasSession(){
+function hasSession() {
   return !!localStorage.getItem("session");
 }
 
-function refreshStatus(){
+function refreshStatus() {
   const logged = hasSession();
   document.getElementById("session-state").textContent = logged ? "present" : "none";
 
