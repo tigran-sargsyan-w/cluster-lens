@@ -11,8 +11,8 @@
 > To provide a more stable and lightweight alternative, I created **42 Cluster Stats** — a browser extension that shows live cluster occupancy statistics directly on the 42 intra clusters page with a much simpler and more reliable approach.
 >
 > 👉 **Use the actively maintained project instead:**  
-> [42 Cluster Stats - Github](https://github.com/tigran-sargsyan-w/42-cluster-stats)
-> [42 Cluster Stats - Github](https://github.com/tigran-sargsyan-w/42-cluster-stats)
+> [🐙 Github](https://github.com/tigran-sargsyan-w/42-cluster-stats)  
+> [🌐 Chrome Web Store](https://chromewebstore.google.com/detail/aggohbfeoehknnidmbcikjgapbaahoeg?utm_source=item-share-cb)
 ---
 
 ## About this project
