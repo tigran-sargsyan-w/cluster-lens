@@ -1,5 +1,13 @@
 # 42 Cluster Lens 🛰️🗺️
 
+> [!WARNING]
+> ## Archived Project Notice
+> This repository is now **archived** and is **no longer actively maintained**.
+>
+
+---
+
+## About this project
 Welcome to **42 Cluster Lens** — an alternative interactive cluster map for 42 campuses. It makes the map feel alive, useful, and reliable: it loads fast, shows relevant info, and helps you navigate in real time.
 
 > If the official “Intra” map doesn’t load or doesn’t show what you need — **Cluster Lens** has your back and gives you more.
