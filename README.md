@@ -4,7 +4,14 @@
 > ## Archived Project Notice
 > This repository is now **archived** and is **no longer actively maintained**.
 >
-
+> **42 Cluster Lens** was built as a richer cluster experience with an interactive map, statistics, overlays, and additional navigation features. However, over time, the project became too dependent on unstable 42 API behavior, rate limits, and backend maintenance requirements.
+>
+> Because of these recurring API-related issues, maintaining the full-stack architecture of **Cluster Lens** is no longer practical for me.
+>
+> To provide a more stable and lightweight alternative, I created **42 Cluster Stats** — a browser extension that shows live cluster occupancy statistics directly on the 42 intra clusters page with a much simpler and more reliable approach.
+>
+> 👉 **Use the actively maintained project instead:**  
+> [42 Cluster Stats](https://github.com/tigran-sargsyan-w/42-cluster-stats)
 ---
 
 ## About this project
